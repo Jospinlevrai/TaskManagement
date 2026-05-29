@@ -27,18 +27,18 @@ public class Registration extends Application {
          title.setText("REGISTRATION PAGE");
          
          
-         
+         Label namelabel = new Label("Enter Full name");
          TextField Name = new TextField();
          Name.setPromptText("Full name");
          Name.setMaxWidth(250);
          
-         Label emailLabel = new Label("Role");
+         Label emailLabel = new Label("Enter your email");
          TextField tfemail  = new TextField();
          tfemail.setPromptText("Email");
          tfemail.setMaxWidth(250);
          
          
-       Label AgeLabel = new Label("Enter your Age(+18)");
+        Label AgeLabel = new Label("Enter your Age(+18)");
         TextField tfAge = new TextField();
         tfAge.setPromptText("Age");
         tfAge.setMaxWidth(250);
@@ -67,10 +67,23 @@ public class Registration extends Application {
         
         @Override
         public void handle(ActionEvent event){
+         
+            
+            if (Name.getText().isEmpty() || tfemail.getText().isEmpty() ||
+            tfAge.getText().isEmpty() || pfPassword.getText().isEmpty() ||
+            Role.getValue() == null) {
+            statusLabel.setText(" Please fill in all fields.");
+            }
+        if (!tfemail.getText().contains("@")){
+              statusLabel.setText("Invalid email address");
+                 return;
+              }
         
           DBConnection dbc = new DBConnection();
           
           try{
+              
+              
           DBOperations dbo = new DBOperations();
           
           dbo.insertoperation(
@@ -113,7 +126,9 @@ public class Registration extends Application {
         });
         
         VBox root = new VBox(10);
-        root.getChildren().addAll(title,Name,tfemail,tfAge,pfPassword,Role,isActive,Register,statusLabel);
+        root.getChildren().addAll(title,namelabel,Name,emailLabel,tfemail,AgeLabel,tfAge,
+                                  passwordLabel,pfPassword,roleLabel,Role,isActive,Register
+                                  ,statusLabel);
         
         
         root.setAlignment(Pos.CENTER);
