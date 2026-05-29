@@ -90,7 +90,7 @@ public class Registration extends Application {
         @Override
         public void handle(ActionEvent event){
          
-            
+            //Condition for Register
             if (Name.getText().isEmpty() || tfemail.getText().isEmpty() ||
             tfAge.getText().isEmpty() || pfPassword.getText().isEmpty() ||
             Role.getValue() == null) {
