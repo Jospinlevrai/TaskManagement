@@ -11,5 +11,5 @@ import java.time.LocalDateTime;
  * @author lukog
  */
 public interface DBinsert {
-    public void insertoperation(String Name,String email,int age,String password,String role, boolean isActive);
+    public void insertoperation(Employee employee);
 }

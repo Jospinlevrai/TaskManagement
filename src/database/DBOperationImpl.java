@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  */
 public class DBOperationImpl implements DBUpdate,DBDelete,DBinsert,DBSelect {
    @Override
-   public void insertoperation(String Name, String email, int age, String password, String role,boolean isActive) {
+   public void insertoperation(Employee employee) {
     DBConnection dbc = new DBConnection();
     try {
         String query = "INSERT INTO employee(full_name, email, age, created_at, password, role, is_active) "
@@ -21,14 +21,15 @@ public class DBOperationImpl implements DBUpdate,DBDelete,DBinsert,DBSelect {
 
         PreparedStatement pst = dbc.con.prepareStatement(query);
 
-        pst.setString(1, Name);
-        pst.setString(2, email);
-        pst.setInt(3, age);
-        pst.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now())); // ✅ created_at
-        pst.setString(5, password);
-        pst.setString(6, role);
-        pst.setBoolean(7, isActive);  
-          
+        pst.setString(1, employee.getFullName());
+        pst.setString(2, employee.getEmail());
+        pst.setInt(3, employee.getAge());
+        pst.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+        pst.setString(5, employee.getPassword());
+        pst.setString(6, employee.getRole());
+        pst.setBoolean(7, employee.isActive());
+        
+        pst.execute();  
            
            
            
@@ -68,21 +69,22 @@ public class DBOperationImpl implements DBUpdate,DBDelete,DBinsert,DBSelect {
 
 
    @Override
-    public void updateOperation(int ID,String Name,String email,int age,LocalDateTime createdat,String password,String role,boolean Status){
+    public void updateOperation(int ID,Employee employee){
     DBConnection dbc = new DBConnection();
        try{
            String query = "Update employee SET full_name=?, email=?, age=?, created_at=?,password=?,role=?,is_active=? WHERE employee_id=?";
            PreparedStatement pst= dbc.con.prepareStatement(query);
            
-           
-          
-           pst.setString(1,Name);
-           pst.setString(2,email);
-           pst.setInt(3,age);
-           pst.setTimestamp(4,Timestamp.valueOf(createdat));
-           pst.setString(5,password);
-           pst.setString(6,role);
-           pst.setBoolean(7,Status);
+        
+        pst.setString(1, employee.getFullName());
+        pst.setString(2, employee.getEmail());
+        pst.setInt(3, employee.getAge());
+        pst.setTimestamp(4, Timestamp.valueOf(employee.getCreatedAt()));
+        pst.setString(5, employee.getPassword());
+        pst.setString(6, employee.getRole());
+        pst.setBoolean(7, employee.isActive());
+        pst.setInt(8, ID);
+        
           
            pst.setInt(8,ID);
           pst.executeUpdate();

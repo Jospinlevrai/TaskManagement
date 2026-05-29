@@ -9,25 +9,24 @@ import java.time.*;
  * @author lukog
  */
 public class DBTask {
-    public void inserttask(int task_id,String title,String description,String assigned_to,String status,LocalDate due_date,LocalDateTime created_at,LocalDateTime updated_at){
-        DBinserttask dbo = new TaskImpl();
-        
-        dbo.inserttask(task_id, title, description,assigned_to, status, due_date, created_at, updated_at);
-    }
+   public void inserttask(Task task) {
+    DBinserttask dbo = new TaskImpl();
+    dbo.inserttask(task);
+   }
     public void deletetask(String task_id){
         DBDeletetask dbo = new TaskImpl();
         
        dbo.deletetask(task_id);
     }
-    public void updatetask(int task_id,String title,String description,String assigned_to,String status, LocalDate due_date,LocalDateTime created_at,LocalDateTime updated_at){
-        DBUpdatetask dbo = new TaskImpl();
-        
-        dbo.updatetask(task_id, title, description,assigned_to, status, due_date, created_at, updated_at);
-    }
+    public void updatetask(int task_id, Task task) {
+    DBUpdatetask dbo = new TaskImpl();
+    dbo.updatetask(task_id, task);
+}
     public void selecttask(int task_id){
         DBselecttask dbo = new TaskImpl();
         
         dbo.selecttask(task_id);
         
     }
+    
 }

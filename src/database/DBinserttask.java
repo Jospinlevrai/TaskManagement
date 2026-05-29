@@ -9,5 +9,5 @@ import java.time.*;
  * @author lukog
  */
 public interface DBinserttask {
-    public void inserttask(int task_id,String title,String description,String assigned_to,String status, LocalDate due_date,LocalDateTime created_at,LocalDateTime updated_at);
+    public void inserttask(Task task);
 }

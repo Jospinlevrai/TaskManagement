@@ -115,18 +115,11 @@ public class Registration extends Application {
               
           DBOperations dbo = new DBOperations();
           
-          dbo.insertoperation(
-          Name.getText(),
-          tfemail.getText(),
-          Integer.parseInt(
-            tfAge.getText()),
+          Employee employee = new Employee(
+            0,Name.getText(),tfemail.getText(),Integer.parseInt(tfAge.getText()),
+            pfPassword.getText(),Role.getValue(),isActive.isSelected(),LocalDateTime.now());
           
-          pfPassword.getText(),
-          
-          Role.getValue(),
-          isActive.isSelected()  
-                  
-          );
+            dbo.insertoperation(employee);
             Name.clear();
 
             tfemail.clear();

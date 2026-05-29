@@ -21,10 +21,10 @@ public class Login extends Application  {
         title.setText("LOGIN PAGE");
         
         Label userlabel = new Label();
-        userlabel.setText("USERNAME");
-        TextField Username = new TextField();
-        Username.setPromptText("Enter your username");
-        Username.setMaxWidth(200);
+        userlabel.setText("Email");
+        TextField Email = new TextField();
+        Email.setPromptText("Enter your username");
+        Email.setMaxWidth(200);
         
         Label passlabel = new Label();
         passlabel.setText("PASSWORD");
@@ -55,10 +55,50 @@ public class Login extends Application  {
         
         });
         
+        btn1.setOnAction( new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+            
+            String inputemail = Email.getText();
+            String inpassword = password.getText();
+            
+            if(inputemail.isEmpty() || inpassword.isEmpty()){
+            Message.setText("Please fill all the fields");
+            
+            return;
+            }
+            
+            Logincheck lc = new Logincheck();
+            
+            Employee employee = lc.checklogin(inputemail,inpassword);
+            
+            if(employee == null){
+            Message.setText("Invalid Credentials");
+            
+            }else if(!employee.isActive()){
+            Message.setText("Inactive Account.Contact your Manager");
+            
+            }else if(employee.getRole().equals("MANAGER")){
+            
+                ManagerDashboard Managerpage = new ManagerDashboard();
+                Stage Manstage = new Stage();
+                Managerpage.start(Manstage);
+                primaryStage.close();
+              
+            }
+                
+            
+            
+            }
+        
+        
+        
+        
+        });
         
         VBox root = new VBox();
         
-        root.getChildren().addAll(title,userlabel,Username,passlabel,password,Message,btn1,Regi);
+        root.getChildren().addAll(title,userlabel,Email,passlabel,password,Message,btn1,Regi);
       
         root.setAlignment(Pos.CENTER);
         root.setSpacing(20);

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * @author lukog
  */
 public interface DBUpdate {
-    public void updateOperation(int ID,String Name,String email,int age,LocalDateTime createdat,String password,String role,boolean Status);
+    public void updateOperation(int ID, Employee employee);
 }
    
 

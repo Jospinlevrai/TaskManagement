@@ -11,28 +11,29 @@ import java.sql.Date;
  *
  * @author lukog
  */
-public class TaskImpl implements DBinserttask,DBselecttask,DBUpdatetask,DBDeletetask {
+public class TaskImpl implements DBinserttask,DBselecttask,DBUpdatetask,DBDeletetask,DBOpro {
     
     
     
     
     @Override
- public void inserttask(int task_id,String title,String description,String assigned_to,String status, LocalDate due_date,LocalDateTime created_at,LocalDateTime updated_at){ 
+ public void inserttask(Task task){ 
        DBConnection dbc = new DBConnection();
        try{
            String query= "INSERT INTO task(task_id,title,description,assigned_to,status,due_date,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?)";
            
            PreparedStatement pst = dbc.con.prepareStatement(query);
            
-           pst.setInt(1,task_id);
-           pst.setString(2,title);
-           pst.setString(3,description);
-           pst.setString(4, assigned_to);
-           pst.setString(5,status);
-           pst.setDate(6,Date.valueOf(due_date));
-           pst.setTimestamp(7,Timestamp.valueOf(created_at));
-           pst.setTimestamp(8,Timestamp.valueOf(updated_at));
-           
+            pst.setInt(1, task.getTaskId());
+            pst.setString(2, task.getTitle());
+            pst.setString(3, task.getDescription());
+            pst.setString(4, task.getAssignedTo());
+            pst.setString(5, task.getStatus());
+            pst.setDate(6, Date.valueOf(task.getDueDate()));
+            pst.setTimestamp(7, Timestamp.valueOf(task.getCreatedAt()));
+            pst.setTimestamp(8, Timestamp.valueOf(task.getUpdatedAt()));
+            pst.execute();
+            
           
            
            boolean result = pst.execute();
@@ -70,28 +71,25 @@ public class TaskImpl implements DBinserttask,DBselecttask,DBUpdatetask,DBDelete
 
 
    @Override
-    public void updatetask(int task_id,String title,String description,String assigned_to,String status, LocalDate due_date,LocalDateTime created_at,LocalDateTime updated_at){
+    public void updatetask(int task_id, Task task){
     DBConnection dbc = new DBConnection();
        try{
            String query = "Update task SET title=?,description=?,status=?,due_date=?,created_at=?,update_at=? WHERE task_id=?";
            PreparedStatement pst= dbc.con.prepareStatement(query);
            
-           
-           
-           pst.setString(1,title);
-           pst.setString(2,description);
-           pst.setString(3, assigned_to);
-           pst.setString(4,status);
-           pst.setDate(5,Date.valueOf(due_date));
-           pst.setTimestamp(6,Timestamp.valueOf(created_at));
-           pst.setTimestamp(7,Timestamp.valueOf(updated_at));
-           pst.setInt(8,task_id);
-           
+           pst.setString(1, task.getTitle());
+           pst.setString(2, task.getDescription());
+           pst.setString(3, task.getAssignedTo());
+           pst.setString(4, task.getStatus());
+           pst.setDate(5, Date.valueOf(task.getDueDate()));
+           pst.setTimestamp(6, Timestamp.valueOf(task.getCreatedAt()));
+           pst.setTimestamp(7, Timestamp.valueOf(task.getUpdatedAt()));
+           pst.setInt(8, task_id);
            
            
            pst.executeUpdate();
-         
-          
+           
+        
           dbc.con.close();
           
           
@@ -143,5 +141,34 @@ public class TaskImpl implements DBinserttask,DBselecttask,DBUpdatetask,DBDelete
         
        
     }
+    @Override
+     public void updatepro(int task_id,String status){
+    DBConnection dbc = new DBConnection();
+       try{
+           String query = "Update task SET status=?,update_at=? WHERE task_id=?";
+           PreparedStatement pst= dbc.con.prepareStatement(query);
+           
+           
+           
+           pst.setString(1,status);
+          
+           pst.setTimestamp(2,Timestamp.valueOf(LocalDateTime.now()));
+           pst.setInt(3,task_id);
+           
+           pst.executeUpdate();
+         
+          
+          dbc.con.close();
+          
+          
+       }catch(SQLException sqlee) {
+
+        System.out.println("Select failed: " + sqlee.getMessage());   
+        
+    }
+        
+       
+    }
+    
     
 }
