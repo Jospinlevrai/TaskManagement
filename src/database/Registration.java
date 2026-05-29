@@ -51,8 +51,30 @@ public class Registration extends Application {
         Label roleLabel = new Label("Role");
         ComboBox<String> Role = new ComboBox<>();
         
+        
+        
         Role.getItems().addAll("MANAGER","EMPLOYEE");
         Role.setPromptText("Select Role");
+        
+        
+        TextField managercode = new TextField();
+        managercode.setPromptText("MANAGER CODE");
+        managercode.setMaxWidth(250);
+        managercode.setVisible(false);
+        
+        
+        Role.setOnAction(new EventHandler<ActionEvent>(){
+             @Override
+             public void handle(ActionEvent event) {
+              if (Role.getValue() != null && Role.getValue().equals("MANAGER")){
+                managercode.setVisible(true);
+        }else {
+        managercode.setVisible(false);
+        }
+             }
+        
+           
+        });
         
         CheckBox isActive = new CheckBox("Active Account");
         
@@ -73,11 +95,18 @@ public class Registration extends Application {
             tfAge.getText().isEmpty() || pfPassword.getText().isEmpty() ||
             Role.getValue() == null) {
             statusLabel.setText(" Please fill in all fields.");
+            return;
             }
-        if (!tfemail.getText().contains("@")){
+            else if (!tfemail.getText().contains("@")){
               statusLabel.setText("Invalid email address");
                  return;
               }
+            else if(Role.getValue().equals("MANAGER") && !managercode.getText().equals("AD-243")){
+            statusLabel.setText("Invalid manager code");    
+            return;
+            }
+            
+            
         
           DBConnection dbc = new DBConnection();
           
@@ -127,7 +156,7 @@ public class Registration extends Application {
         
         VBox root = new VBox(10);
         root.getChildren().addAll(title,namelabel,Name,emailLabel,tfemail,AgeLabel,tfAge,
-                                  passwordLabel,pfPassword,roleLabel,Role,isActive,Register
+                                  passwordLabel,pfPassword,roleLabel,Role,managercode,isActive,Register
                                   ,statusLabel);
         
         
